@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ToastService } from './../toast.service';
+import { Component, inject, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ButtonModule } from 'primeng/button';
 import { CategoryComponent } from './category/category.component';
@@ -28,6 +29,8 @@ export class NavbarComponent implements OnInit {
   guests = 'Add guests';
   dates = 'Any week';
 
+  toastService = inject(ToastService);
+
   //login = () => this.authService.login();
 
   //logout = () => this.authService.logout();
@@ -35,7 +38,8 @@ export class NavbarComponent implements OnInit {
   currentMenuItems: MenuItem[] | undefined = [];
 
   ngOnInit(): void {
-    this.fetchMenu();
+    this.currentMenuItems = this.fetchMenu();
+    this.toastService.send({ severity: 'info', summary: 'Seja bem-vindo' });
   }
 
   private fetchMenu(): MenuItem[] {
